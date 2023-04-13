@@ -13,7 +13,7 @@
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Fiap</a>
+			<a class="navbar-brand" href="/produto">Fiap</a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#mynavbar">
 				<span class="navbar-toggler-icon"></span>
@@ -38,6 +38,9 @@
 	</nav>
 	<div class="container mt-5">
 		<h2 class="text-center">Cadastrar Produto</h2>
+		<a type="button" class="btn btn-primary mt-2" href="/produto">Home</a>
+		<br>
+		<br>
 		<form method="post" action="/produto/create">
 			<p>
 				nome: <input type="text" name="nome" id="nome" />

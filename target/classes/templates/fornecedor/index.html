@@ -12,7 +12,7 @@
 <body>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Fiap</a>
+			<a class="navbar-brand" href="/produto">Fiap</a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
 				<span class="navbar-toggler-icon"></span>
 			</button>
@@ -46,6 +46,7 @@
 				<th>Nome</th>
 				<th>Endereço</th>
 				<th>Telefone</th>
+				<th>Delete</th>
 			</thead>
 			<tbody>
 				<tr th:each="fornecedor : ${fornecedores}">
@@ -53,6 +54,7 @@
 					<td th:text="${fornecedor.getNome()}"></td>
 					<td th:text="${fornecedor.getEndereco()}"></td>
 					<td th:text="${fornecedor.getTelefone()}"></td>
+					<td><a th:href="@{/fornecedor/delete/{fornecedorId} (fornecedorId = ${fornecedor.id})}">Deletar</a></td>
 				</tr>
 			</tbody>
 		</table>

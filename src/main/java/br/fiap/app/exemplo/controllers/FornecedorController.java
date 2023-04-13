@@ -55,4 +55,10 @@ public class FornecedorController {
 		
 		return "redirect:/fornecedor";
 	}
+	
+	@GetMapping("/delete/{id}")
+	public String delete(@PathVariable("id")Long id) {
+		fornecedorRepository.deleteById(id);
+		return "redirect:/fornecedor";
+	}
 }
