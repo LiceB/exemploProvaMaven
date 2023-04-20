@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,6 +24,7 @@ import br.fiap.app.exemplo.models.Produto;
 import br.fiap.app.exemplo.repositories.CategoriaRepository;
 import br.fiap.app.exemplo.repositories.FornecedorRepository;
 import br.fiap.app.exemplo.repositories.ProdutoRepository;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/produto")
@@ -73,6 +78,12 @@ public class ProdutoController {
 		model.addObject("categorias", categorias);
 		
 		return model;
+	}
+	
+	@PostMapping("/create-form")
+	public ResponseEntity<Produto> createFrom(@Valid @RequestBody Produto objProduto) {
+		produtoRepository.save(objProduto);		
+		return new ResponseEntity<Produto>(objProduto, HttpStatus.CREATED);
 	}
 	
 	@PostMapping("/create")

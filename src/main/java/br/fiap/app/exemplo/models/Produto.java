@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity // cria entidade
 public class Produto {
@@ -12,8 +15,13 @@ public class Produto {
 	@GeneratedValue(strategy = GenerationType.AUTO) // auto increment
 	private Long id;
 
+	@NotBlank(message = "Favor preencher o nome do produto")
 	private String nome;
+	
 	private Long idCategoria;
+	
+	@NotNull(message = "O fornecedor é obrigatório")
+	@Min(value = 1, message= "Favor selecionar o fornecedor")
 	private Long idFornecedor;
 
 	public Long getId() {

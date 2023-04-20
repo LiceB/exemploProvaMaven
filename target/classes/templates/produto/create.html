@@ -36,31 +36,83 @@
 			</div>
 		</div>
 	</nav>
+	
+	<ul id="erros">
+	
+	</ul>
+	
 	<div class="container mt-5">
 		<h2 class="text-center">Cadastrar Produto</h2>
 		<a type="button" class="btn btn-primary mt-2" href="/produto">Home</a>
 		<br>
 		<br>
-		<form method="post" action="/produto/create">
+		<form method="post" action="/produto/create" id="frmProduto">
 			<p>
 				nome: <input type="text" name="nome" id="nome" />
 			</p>
 			<p>Categoria
 				<select name="idCategoria" id="idCategoria">
+				<option value="0">Selecione</option>
 					<option th:each="item : ${categorias}" th:value="${item.getId()}" th:text="${item.getDescricao()}"></option>
 				</select>
 			</p>
 			<p>Fornecedor
 				<select name="idFornecedor" id="idFornecedor">
+				<option value="0">Selecione</option>
 					<option th:each="item : ${fornecedores}" th:value="${item.getId()}" th:text="${item.getNome()}"></option>
 				</select>
 			</p>
 			<input type="submit" value="Salvar" />
 		</form>
+		<input type="button" value="Salvar via JavaScript" onclick="salvar()"/>
 	</div>
 </body>
 </html>
 <script>
+	let responseEntity;
+	
+	function salvar() {
+		const form = document.getElementById("frmProduto")
+		const formData = new FormData(form)
+		const jsonBody = JSON.stringify(Object.fromEntries(formData.entries()))
+		const header = new Headers()
+		header.append("Content-Type", "application/json")
+		
+		const requestOption = {
+			method: 'Post',
+			headers: header,
+			body: jsonBody
+		}
+		
+		fetch('/produto/create-form', requestOption)
+		.then(response => {
+			responseEntity = response
+			return response.json()
+		})
+		.then(data => tratarRedirect(data))
+		.catch(error => console.log(error))
+	}
+	
+	function tratarRedirect(data) {
+		if(responseEntity.ok) {
+			alert("Produto cadastrado com sucesso")
+			window.location.href = '/produto'
+			return
+		}
+		
+		let listErros = document.getElementById('erros')
+		listErros.innerHTML = ''
+		let itemListError = ''
+		
+		if(data.hasOwnProperty('nome'))
+			itemListError = `<li>${data.nome}</li>`
+			
+		if(data.hasOwnProperty('idFornecedor'))
+			itemListError += `<li>${data.idFornecedor}</li>`
+			
+		listErros.innerHTML = itemListError
+	}
+
 	function getCategoria(){
 		fetch("/produto/categoria")
 		.then(response => response.json())
