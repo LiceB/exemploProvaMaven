@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{headFragment :: head('Criar arquivo')}"></head>
+<body>
+	<nav th:replace="~{menuFragment :: nav()}"></nav>
+	<div class="container mt-5">
+	<h2 class="text-center">Upload de Arquivos</h2>
+		<form method="post" action="/arquivo/create">
+		<input type="file" name="file" id="file">
+		<input type="button" value="Upload" onclick="up()" />
+	</form>
+	</div>
+</body>
+<script>
+	function up() {
+		const arquivo = document.getElementById("file").files[0];
+		var formData = new FormData()
+		formData.append("image", arquivo)
+		
+		var requestOptions = {
+			method: 'POST',
+			body: formData
+		}
+		
+		fetch("/arquivo", requestOptions)
+		.then(response => response.json())
+		.then(result => console.log(result))
+		.catch(erro => console.log(erro))
+	}
+</script>
+</html>
